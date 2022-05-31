@@ -1,0 +1,2 @@
+export let Bound = (num: number, min: number, max: number): number => num < min ? min : num > max ? max : num
+export let ConvertPxParentPercent = (px: number, parentBound): string => (px / parentBound * 100).toString() + "%"
