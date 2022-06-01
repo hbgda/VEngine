@@ -55,7 +55,7 @@ export const Draggable = {
             options: {
                 snap_px: {
                     type: TraitOptionType.Integer,
-                    value: 1
+                    value: 10
                 }
             },
             events: [

@@ -1,5 +1,8 @@
+import type { Trait } from "./Trait"
+
 export interface SceneComponent extends HTMLDivElement {
-    trait_options?: {[key: string]: TraitData}
+    trait_options?: {[key: string]: TraitData},
+    traits?: Trait[]
 }
 
 export abstract class ComponentTrait {

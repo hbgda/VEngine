@@ -1,9 +1,12 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import { createEventDispatcher, onMount } from 'svelte';
     import { Trait, ImplTrait } from '../../lib/Trait';
     
     let base: HTMLDivElement
-    let selected: boolean = false
+    export function getBase() {
+        return base
+    }
+    export let selected: boolean = false
     
     export function implementTrait(trait: Trait): boolean {
         if(base["traits"].includes(trait)) {
@@ -37,9 +40,17 @@
         base["trait_options"] = {}
         base["traits"] = []
     })
+
+
+    const dispatch = createEventDispatcher()
+
+    export function select(e: MouseEvent) {
+        e.stopPropagation()
+        dispatch("selected")
+    }
 </script>
 
-<div bind:this={base} class="scene-component" data={(base ? base["traits"] : []).join(" ")} on:click={() => selected = true}>
+<div style="left: calc(50% - 50px); top: calc(50% - 50px);" bind:this={base} class={selected == true ? "scene-component selected" : "scene-component"} data={(base ? base["traits"] : []).join(" ")} on:click={select}>
 
 </div>
 
@@ -49,5 +60,10 @@
         height: 100px;
         background-color: black;
         position: absolute;
+        z-index: 2;
+    }
+    .selected {
+        outline: white 2px solid;
+        z-index: 3 !important;
     }
 </style>
