@@ -49,9 +49,11 @@
         e.stopPropagation()
         dispatch("selected")
     }
+
+    let viewport = document.getElementById("editor_viewport")
 </script>
 
-<div style="left: 50%; top: 50%;" bind:this={base} class={"scene-component" + (selected == true ? " selected" : "")} data={(base ? base["traits"] : []).join(" ")} on:click={select}>
+<div style={`left: ${viewport.offsetWidth / 2 - 50}px; top: ${viewport.offsetHeight / 2 - 50}px; right: unset; bottom: unset;`} bind:this={base} class={"scene-component" + (selected == true ? " selected" : "")} data={(base ? base["traits"] : []).join(" ")} on:click={select}>
 
 </div>
 
@@ -62,6 +64,7 @@
         background-color: black;
         position: absolute;
         z-index: 2;
+        -webkit-user-drag: none;
     }
     .selected {
         outline: white 2px solid;

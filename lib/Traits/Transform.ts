@@ -1,4 +1,4 @@
-import { Bound } from "../Helpers";
+import { Bound, GetComponentViewportOffset } from "../Helpers";
 import { SceneComponent, TraitOptionType } from "../types";
 
 
@@ -104,20 +104,12 @@ transformDisplay.innerHTML = `
 const Scalable = {
     implement(component: SceneComponent) {
         function scaleY(scale) {
-            console.log(scale)
-            let height = `calc(${component.style.height != "" ? component.style.height : "100px"} + ${-(scale)}px)`
-            console.log(height)
+            let height = `calc(${component.style.height != "" ? component.style.height : "100px"} + ${(-scale)}px)`
             component.style.height = height
         }
         function scaleX(scale) {
-            console.log(scale)
             let width = `calc(${component.style.width != "" ? component.style.width : "100px"} + ${(scale)}px)`
-            console.log(width)
             component.style.width = width
-        }
-
-        function enableScale() {
-
         }
 
         function setListeners(scale) {
@@ -130,23 +122,49 @@ const Scalable = {
         }
 
         function ScaleY(e: MouseEvent, neg = false) {
+            adjustPositionOrigin(neg ? "top" : "bottom")
             e.stopPropagation()
             let scale = (e: MouseEvent) => scaleY(neg ? -e.movementY : e.movementY)
             setListeners(scale)
         }
         function ScaleX(e: MouseEvent, neg = false) {
+            adjustPositionOrigin(neg ? "right" : "left")
             e.stopPropagation()
             let scale = (e: MouseEvent) => scaleX(neg ? -e.movementX : e.movementX)
             setListeners(scale)
         }
 
-        function adjustPositioning() {
+        function swapPositionOrigin(initial: string, swap: string) {
+            if(!component.style[initial]) {
+                component.style.setProperty(initial, "unset")
+            }
+            let offsets = GetComponentViewportOffset(component)
+            console.log(initial, swap)
+            console.log(offsets)
+            component.style.setProperty(initial, "unset")
+            component.style.setProperty(swap, offsets[swap])
+        }
 
+        function adjustPositionOrigin(dir) {
+            switch(dir) {
+                case "left":
+                    swapPositionOrigin("right", "left")
+                    break
+                case "right":
+                    swapPositionOrigin("left", "right")
+                    break
+                case "top":
+                    swapPositionOrigin("bottom", "top")
+                    break
+                case "bottom":
+                    swapPositionOrigin("top", "bottom")
+                    break
+            }
         }
 
         let td = component.appendChild(transformDisplay.cloneNode(true)) as HTMLDivElement
         td.style.display = "none"
-        
+
         //---
         let topMid = component.querySelector(".top-mid") as HTMLDivElement
         topMid.addEventListener("mousedown", ScaleY)

@@ -12,10 +12,10 @@
     let dispatch = createEventDispatcher()
 
     function selectComponent(component) {
-        if(selectedComponent) {
+        if(selectedComponent != undefined) {
             selectedComponent.getBase().dispatchEvent(new CustomEvent("component_deselected"))
         }
-        
+
         if(component >= 0) {
 
             selectedComponent = componentObjects[component]
@@ -43,7 +43,10 @@
         <button on:click={() => {
             sceneComponents = [(sceneComponents[0] || 0) + 1, ...sceneComponents] 
         }}>Create Component</button>
-        <button on:click={() => sceneComponents = []}>Clear Components</button>
+        <button on:click={() => {
+            sceneComponents = []
+            selectComponent(-1)
+        }}>Clear Components</button>
     </div>
     <div id="editor_viewport" on:click={() => selectComponent(-1)}>
         <div id="component_scene">
