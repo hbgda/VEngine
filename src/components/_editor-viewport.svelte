@@ -5,12 +5,6 @@
 
     import SceneComponent from "./_scene-component.svelte";
 
-    document.addEventListener("keydown", e => {
-        if (e.key == "t" && selectedComponent != undefined) {
-            selectedComponent.implementTrait(Trait.Draggable)
-        }
-    })
-
     export let sceneComponents = []
     let componentObjects = []
     let selectedComponent: SceneComponent
@@ -18,11 +12,22 @@
     let dispatch = createEventDispatcher()
 
     function selectComponent(component) {
+        if(selectedComponent) {
+            selectedComponent.getBase().dispatchEvent(new CustomEvent("component_deselected"))
+        }
+        
         if(component >= 0) {
+
             selectedComponent = componentObjects[component]
+            selectedComponent.getBase().dispatchEvent(new CustomEvent("component_selected"))
             dispatch("component_selected", {
                 component: selectedComponent
             })
+            document.dispatchEvent(new CustomEvent("component_selected", {
+                detail: {
+                    component: componentObjects[component]
+                }
+            }))
         }
         else {
             selectedComponent = undefined
@@ -30,11 +35,14 @@
                 component: undefined
             })
         }
+        
     }
 </script>
 <div>
     <div id="editor_control">
-        <button on:click={() => sceneComponents = [(sceneComponents[0] || 0) + 1, ...sceneComponents]}>Create Component</button>
+        <button on:click={() => {
+            sceneComponents = [(sceneComponents[0] || 0) + 1, ...sceneComponents] 
+        }}>Create Component</button>
         <button on:click={() => sceneComponents = []}>Clear Components</button>
     </div>
     <div id="editor_viewport" on:click={() => selectComponent(-1)}>

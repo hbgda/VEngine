@@ -1,11 +1,12 @@
 import { Bound, ConvertPxParentPercent } from "./Helpers"
-import { Draggable } from "./Traits"
+import { Transform } from "./Traits"
 
 
 export enum Trait {
-    Draggable = "Draggable"
+    Draggable = "Draggable",
+    Transform = "Transform"
 }
 
 export const ImplTrait = {
-    "Draggable": Draggable.implement
+    "Transform": Transform.implement
 }

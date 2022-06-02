@@ -39,6 +39,7 @@
     onMount(() => {
         base["trait_options"] = {}
         base["traits"] = []
+        implementTrait(Trait.Transform)
     })
 
 
@@ -50,7 +51,7 @@
     }
 </script>
 
-<div style="left: calc(50% - 50px); top: calc(50% - 50px);" bind:this={base} class={selected == true ? "scene-component selected" : "scene-component"} data={(base ? base["traits"] : []).join(" ")} on:click={select}>
+<div style="left: 50%; top: 50%;" bind:this={base} class={"scene-component" + (selected == true ? " selected" : "")} data={(base ? base["traits"] : []).join(" ")} on:click={select}>
 
 </div>
 

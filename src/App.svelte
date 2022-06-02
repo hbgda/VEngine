@@ -23,4 +23,54 @@
 			max-width: none;
 		}
 	}
+
+    :global(.transform-node) {
+        width: 10px;
+        height: 10px;
+        background-color: white;
+        position: absolute;
+    }
+    :global(.top-left), :global(.top-mid), :global(.top-right) {
+        transform: translateY(-5px);
+    }
+
+    :global(.top-left) {
+        left: 0;
+        transform: translate(-5px, -5px);
+    }
+    :global(.top-mid) {
+        left: 50%;
+        transform: translate(-50%, -5px);
+    }
+    :global(.top-right) {
+        right: 0;
+        transform: translate(5px, -5px);
+    }
+
+    :global(.bottom-left) {
+        left: 0;
+        bottom: 0;
+        transform: translate(-5px, 5px);
+    }
+    :global(.bottom-mid) {
+        left: 50%;
+        bottom: 0;
+        transform: translate(-50%, 5px);
+    }
+    :global(.bottom-right) {
+        right: 0;
+        bottom: 0;
+        transform: translate(5px, 5px);
+    }
+
+    :global(.left-mid) {
+        left: 0;
+        top: 50%;
+        transform: translate(-5px, -50%);
+    }
+    :global(.right-mid) {
+        right: 0;
+        top: 50%;
+        transform: translate(5px, -50%);
+    }
 </style>
