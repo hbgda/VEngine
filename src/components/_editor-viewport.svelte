@@ -13,13 +13,13 @@
 
     function selectComponent(component) {
         if(selectedComponent != undefined) {
-            selectedComponent.getBase().dispatchEvent(new CustomEvent("component_deselected"))
+            selectedComponent.base().dispatchEvent(new CustomEvent("component_deselected"))
         }
 
         if(component >= 0) {
 
             selectedComponent = componentObjects[component]
-            selectedComponent.getBase().dispatchEvent(new CustomEvent("component_selected"))
+            selectedComponent.base().dispatchEvent(new CustomEvent("component_selected"))
             dispatch("component_selected", {
                 component: selectedComponent
             })
@@ -34,6 +34,11 @@
             dispatch("component_selected", {
                 component: undefined
             })
+            document.dispatchEvent(new CustomEvent("component_selected", {
+                detail: {
+                    component: undefined
+                }
+            }))
         }
         
     }
@@ -59,9 +64,10 @@
 
 <style>
     #editor_viewport {
-        height: 70vh;
+        width: 1334px;
         background-color: blue;
         position: relative;
+        top: 44px;
         left: 0;
         bottom: 0;
         z-index: 1;
@@ -74,8 +80,10 @@
     }
     #editor_control {
         position: absolute;
-        text-align: center;
+        text-align: left;
         z-index: 99;
         left: 0%;
+        background-color: rgb(46, 46, 46);
+        width: 1334px;
     }
 </style>

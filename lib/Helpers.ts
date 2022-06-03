@@ -8,11 +8,14 @@ export let OffsetIsSet = (component: SceneComponent, dir: string) => {
 export let GetComponentViewportOffset = (component: SceneComponent) => {
     const viewport = document.getElementById("editor_viewport")
     
-    let top    = OffsetIsSet(component, "top")    ? component.style.top    : (OffsetIsSet(component, "bottom") ? viewport.offsetHeight - parseInt(component.style.bottom.replace("px", "")) - component.offsetHeight : "0") + "px"
-    let bottom = OffsetIsSet(component, "bottom") ? component.style.bottom : (OffsetIsSet(component, "top")    ? viewport.offsetHeight - parseInt(component.style.top.replace("px", ""))    - component.offsetHeight : "0") + "px"
-    let left   = OffsetIsSet(component, "left")   ? component.style.left   : (OffsetIsSet(component, "right")  ? viewport.offsetWidth  - parseInt(component.style.right.replace("px", ""))  - component.offsetWidth  : "0") + "px"
-    let right  = OffsetIsSet(component, "right")  ? component.style.right  : (OffsetIsSet(component, "left")   ? viewport.offsetWidth  - parseInt(component.style.left.replace("px", ""))   - component.offsetWidth  : "0") + "px"
+    let top    = OffsetIsSet(component, "top")    ? component.style.top    : (OffsetIsSet(component, "bottom") ? viewport.offsetHeight - parseInt(component.style.bottom.replace("px", "")) - component.offsetHeight : "0").toString()
+    let bottom = OffsetIsSet(component, "bottom") ? component.style.bottom : (OffsetIsSet(component, "top")    ? viewport.offsetHeight - parseInt(component.style.top.replace("px", ""))    - component.offsetHeight : "0").toString()
+    let left   = OffsetIsSet(component, "left")   ? component.style.left   : (OffsetIsSet(component, "right")  ? viewport.offsetWidth  - parseInt(component.style.right.replace("px", ""))  - component.offsetWidth  : "0").toString()
+    let right  = OffsetIsSet(component, "right")  ? component.style.right  : (OffsetIsSet(component, "left")   ? viewport.offsetWidth  - parseInt(component.style.left.replace("px", ""))   - component.offsetWidth  : "0").toString()
     return {
-        top, left, right, bottom
+        top: top.replace("px", ""), 
+        left: left.replace("px", ""),
+        right: right.replace("px", ""), 
+        bottom: bottom.replace("px", "")
     }
 }

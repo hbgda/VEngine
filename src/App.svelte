@@ -6,8 +6,8 @@
 </script>
 
 <main>
-    <EditorViewport on:component_selected={(e) => selectedComponent = e.detail.component}/>
-    <ComponentEditor bind:selectedComponent/>
+    <EditorViewport/>
+    <ComponentEditor/>
 </main>
 
 <style>
@@ -29,6 +29,7 @@
         height: 10px;
         background-color: white;
         position: absolute;
+        -webkit-user-drag: none;
     }
     :global(.top-left), :global(.top-mid), :global(.top-right) {
         transform: translateY(-5px);

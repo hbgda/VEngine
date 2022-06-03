@@ -12,7 +12,26 @@ export const Transform = {
 
         return {
             options: {
-
+                size: {
+                    x: {
+                        type: TraitOptionType.Integer,
+                        value: component.offsetWidth
+                    },
+                    y: {
+                        type: TraitOptionType.Integer,
+                        value: component.offsetHeight
+                    }
+                },
+                position: {
+                    x: {
+                        type: TraitOptionType.Integer,
+                        value: parseInt(GetComponentViewportOffset(component).left) - component.offsetWidth / 2,
+                    },
+                    y: {
+                        type: TraitOptionType.Integer,
+                        value: parseInt(GetComponentViewportOffset(component).top) - component.offsetHeight / 2
+                    }
+                }
             },
             events: [].concat(dragInfo.events, scaleInfo.events || [])
         }
@@ -103,11 +122,11 @@ transformDisplay.innerHTML = `
 
 const Scalable = {
     implement(component: SceneComponent) {
-        function scaleY(scale) {
+        function scaleComponentY(scale: number) {
             let height = `calc(${component.style.height != "" ? component.style.height : "100px"} + ${(-scale)}px)`
             component.style.height = height
         }
-        function scaleX(scale) {
+        function scaleComponentX(scale: number) {
             let width = `calc(${component.style.width != "" ? component.style.width : "100px"} + ${(scale)}px)`
             component.style.width = width
         }
@@ -124,13 +143,13 @@ const Scalable = {
         function ScaleY(e: MouseEvent, neg = false) {
             adjustPositionOrigin(neg ? "top" : "bottom")
             e.stopPropagation()
-            let scale = (e: MouseEvent) => scaleY(neg ? -e.movementY : e.movementY)
+            let scale = (e: MouseEvent) => scaleComponentY(neg ? -e.movementY : e.movementY)
             setListeners(scale)
         }
         function ScaleX(e: MouseEvent, neg = false) {
             adjustPositionOrigin(neg ? "right" : "left")
             e.stopPropagation()
-            let scale = (e: MouseEvent) => scaleX(neg ? -e.movementX : e.movementX)
+            let scale = (e: MouseEvent) => scaleComponentX(neg ? -e.movementX : e.movementX)
             setListeners(scale)
         }
 
@@ -142,7 +161,7 @@ const Scalable = {
             console.log(initial, swap)
             console.log(offsets)
             component.style.setProperty(initial, "unset")
-            component.style.setProperty(swap, offsets[swap])
+            component.style.setProperty(swap, offsets[swap] + "px")
         }
 
         function adjustPositionOrigin(dir) {
