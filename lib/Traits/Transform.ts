@@ -46,7 +46,9 @@ const Draggable = {
             let viewport = document.getElementById("editor_viewport")
             let snap_px = 10 //component.trait_options.snap_px.value || 20
             let rawX = e.pageX - component.offsetWidth / 2
-            let rawY = e.pageY - component.offsetHeight / 2
+            // jank fix but i really cba to figure out a proper one rn
+            // legit prob just ignore it because i dont want to acknowledge it
+            let rawY = e.pageY - ((component.offsetHeight / 2) + 44)
             let snappedX = Math.floor(rawX / snap_px) * snap_px
             let snappedY = Math.floor(rawY / snap_px) * snap_px
             let boundedX = Bound(snappedX, 0, viewport.offsetWidth - component.offsetWidth)

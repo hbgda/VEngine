@@ -2,7 +2,9 @@ import type { SceneComponent } from "./types"
 
 export let Bound = (num: number, min: number, max: number): number => num < min ? min : num > max ? max : num
 export let ConvertPxParentPercent = (px: number, parentBound): string => (px / parentBound * 100).toString() + "%"
-export let OffsetIsSet = (component: SceneComponent, dir: string) => {
+export let OffsetIsSet = (component: HTMLElement, dir: string) => {
+    //console.log(component.style)
+    //return window.getComputedStyle(component)[dir] != "0" && window.getComputedStyle(component)[dir] != "0px" && window.getComputedStyle(component)[dir] != ""
     return component.style[dir] != "0" && component.style[dir] != "0px" && component.style[dir] != "unset" && component.style[dir] != ""
 }
 export let GetComponentViewportOffset = (component: SceneComponent) => {
@@ -19,3 +21,4 @@ export let GetComponentViewportOffset = (component: SceneComponent) => {
         bottom: bottom.replace("px", "")
     }
 }
+export let GetStyle = (component: HTMLElement) => window.getComputedStyle(component)
