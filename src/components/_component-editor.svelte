@@ -22,7 +22,6 @@
         })
         document.addEventListener("component_trait_changed", (e) => {
             base = e?.["detail"].component
-            console.log("Changed")
         })
     })
 
@@ -37,7 +36,9 @@
                 <summary>{trait.charAt(0).toUpperCase() + trait.substring(1)}</summary>
                 {#each Object.keys(base["trait_options"][trait.toLowerCase()]) as option (option)}
                     {#if base["trait_options"][trait.toLowerCase()][option]["value"] != undefined}
-                        <OptionEditor name={option} bind:value={base["trait_options"][trait.toLowerCase()][option]["value"]} type={base["trait_options"][trait.toLowerCase()]["type"]}/>
+                        <OptionEditor on:value_changed={(e) => {
+                            base["trait_options"][trait.toLowerCase()][option]["value"] = e.detail.value
+                        }} name={option} editable={base["trait_options"][trait.toLowerCase()][option]["editable"] == true} bind:value={base["trait_options"][trait.toLowerCase()][option]["value"]} type={base["trait_options"][trait.toLowerCase()]["type"]}/>
                     {:else}
                         <NestedOptionEditor name={option} bind:options={base["trait_options"][trait.toLowerCase()][option]}/>
                     {/if}
@@ -57,6 +58,9 @@
         height: 100%;
         width: 30%;
         text-align: left;
+        background-color: rgb(46, 46, 46);
+        color: white;
+        padding-left: 10px;
     }
     #component_editor > :global(details) {
         text-align: left;

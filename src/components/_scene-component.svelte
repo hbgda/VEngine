@@ -67,6 +67,8 @@
         -webkit-user-drag: none;
         min-height: 30px;
         min-width: 30px;
+        max-width: 100%;
+        max-height: 100%;
     }
     .selected {
         outline: white 2px solid;

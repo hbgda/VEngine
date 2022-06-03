@@ -14,6 +14,7 @@ function createWindow() {
         title: 'My App',
     });
     win.setAspectRatio(16 / 9)
+    win.maximize()
     win.setTitle('My App');
     win.loadFile('./public/index.html');
     win.webContents.openDevTools();

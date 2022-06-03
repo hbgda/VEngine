@@ -31,6 +31,11 @@ export const Transform = {
                         type: TraitOptionType.Integer,
                         value: parseInt(GetComponentViewportOffset(component).top) - component.offsetHeight / 2
                     }
+                },
+                snap: {
+                    type: TraitOptionType.Integer,
+                    value: 20,
+                    editable: true
                 }
             },
             events: [].concat(dragInfo.events, scaleInfo.events || [])
@@ -44,7 +49,7 @@ const Draggable = {
     implement(component: SceneComponent) {
         function mouseMove(e: MouseEvent) {
             let viewport = document.getElementById("editor_viewport")
-            let snap_px = 10 //component.trait_options.snap_px.value || 20
+            let snap_px = component.trait_options.transform.snap.value || 20
             let rawX = e.pageX - component.offsetWidth / 2
             // jank fix but i really cba to figure out a proper one rn
             // legit prob just ignore it because i dont want to acknowledge it
@@ -133,13 +138,35 @@ transformDisplay.innerHTML = `
 
 const Scalable = {
     implement(component: SceneComponent) {
-        function scaleComponentY(scale: number) {
+
+        let viewport = document.getElementById("editor_viewport")
+
+
+        function scaleComponentY(scale: number, max = undefined) {
             let height = `calc(${component.style.height != "" ? component.style.height : "100px"} + ${(-scale)}px)`
             component.style.height = height
+            let newHeight = Bound(component.offsetHeight, 30, max)
+            component.style.height = newHeight + "px"
+            component["trait_options"]["transform"]["size"]["y"]["value"] = component.offsetHeight
+
+            document.dispatchEvent(new CustomEvent("component_trait_changed", {
+                detail: {
+                    component
+                }
+            }))
         }
-        function scaleComponentX(scale: number) {
+        function scaleComponentX(scale: number, max = undefined) {
             let width = `calc(${component.style.width != "" ? component.style.width : "100px"} + ${(scale)}px)`
             component.style.width = width
+            let newWidth = Bound(component.offsetWidth, 30, max)
+            component.style.width = newWidth + "px"
+            component["trait_options"]["transform"]["size"]["x"]["value"] = component.offsetWidth
+
+            document.dispatchEvent(new CustomEvent("component_trait_changed", {
+                detail: {
+                    component
+                }
+            }))
         }
 
         function setListeners(scale) {
@@ -154,13 +181,17 @@ const Scalable = {
         function ScaleY(e: MouseEvent, neg = false) {
             adjustPositionOrigin(neg ? "top" : "bottom")
             e.stopPropagation()
-            let scale = (e: MouseEvent) => scaleComponentY(neg ? -e.movementY : e.movementY)
+            let offsets = GetComponentViewportOffset(component)
+            let max = viewport.offsetHeight - (neg ? parseInt(offsets.top) : parseInt(offsets.bottom))
+            let scale = (e: MouseEvent) => scaleComponentY(neg ? -e.movementY : e.movementY, max)
             setListeners(scale)
         }
         function ScaleX(e: MouseEvent, neg = false) {
             adjustPositionOrigin(neg ? "right" : "left")
             e.stopPropagation()
-            let scale = (e: MouseEvent) => scaleComponentX(neg ? -e.movementX : e.movementX)
+            let offsets = GetComponentViewportOffset(component)
+            let max = viewport.offsetWidth - (neg ? parseInt(offsets.right) : parseInt(offsets.left))
+            let scale = (e: MouseEvent) => scaleComponentX(neg ? -e.movementX : e.movementX, max)
             setListeners(scale)
         }
 

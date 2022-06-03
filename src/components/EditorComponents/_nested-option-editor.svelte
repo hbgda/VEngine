@@ -11,7 +11,8 @@ import { TraitOptionType } from "../../../lib/types";
             return {
                 key: k,
                 type: options[k].type == TraitOptionType.Boolean ? "checkbox" : options[k].type == TraitOptionType.Float || options[k].type == TraitOptionType.Integer ? "number" : options[k].type == TraitOptionType.String ? "text" : "",
-                value: options[k].value
+                value: options[k].value,
+                editable: options[k].editable ? true : false
             }
     })
 </script>
@@ -21,7 +22,7 @@ import { TraitOptionType } from "../../../lib/types";
     <div {name}>
         {#each parsedOptions as option (option["key"])}
             <label for={option["key"]}>{option["key"].charAt(0).toUpperCase() + option["key"].substring(1)}</label>
-            <input type={option["type"]} value={option["value"]}/>
+            <input disabled={!option["editable"]} type={option["type"]} value={option["value"]}/>
         {/each}
     </div>
 </div>

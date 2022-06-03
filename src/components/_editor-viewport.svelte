@@ -82,9 +82,12 @@
     #editor_control {
         position: absolute;
         text-align: left;
-        z-index: 99;
+        z-index: 1;
         left: 0%;
         background-color: rgb(46, 46, 46);
         width: 1334px;
+    }
+    #editor_control > button {
+        z-index: 99;
     }
 </style>

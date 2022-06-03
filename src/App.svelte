@@ -16,6 +16,7 @@
 		max-width: 240px;
 		margin: 0;
         width: 1920px;
+        background-color: rgb(46, 46, 46);
 	}
 
 	@media (min-width: 640px) {
