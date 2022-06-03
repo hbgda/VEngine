@@ -2,7 +2,7 @@
     import { onMount } from "svelte";
 
     import { Trait } from "../../lib/Trait";
-import NestedOptionEditor from "./EditorComponents/_nested-option-editor.svelte";
+    import NestedOptionEditor from "./EditorComponents/_nested-option-editor.svelte";
     import OptionEditor from "./EditorComponents/_option-editor.svelte";
     import type SceneComponent from "./_scene-component.svelte";
 
@@ -11,30 +11,41 @@ import NestedOptionEditor from "./EditorComponents/_nested-option-editor.svelte"
 
     onMount(() => {
         document.addEventListener("component_selected", (e) => {
+            if(selectedComponent == e?.["detail"].component) return
             selectedComponent = e?.["detail"].component
+            trait_options = []
             base = selectedComponent != undefined ? selectedComponent.base() : undefined
+
+            if(selectedComponent != undefined) 
+                trait_options = Object.keys(base["trait_options"])
+                
+        })
+        document.addEventListener("component_trait_changed", (e) => {
+            base = e?.["detail"].component
+            console.log("Changed")
         })
     })
+
+    let trait_options = []
+
 </script>
 
 <div id="component_editor">
     <div>
-        {#if selectedComponent != undefined}
-            {#each base["traits"] as trait}
-                <details>
-                    <summary>{trait}</summary>
-                    {#each Object.keys(base["trait_options"][trait.toLowerCase()]) as option}
-                        {#if base["trait_options"][trait.toLowerCase()][option]["value"] != undefined}
-                            <OptionEditor name={option} value={base["trait_options"][trait.toLowerCase()][option]["value"]} type={base["trait_options"][trait.toLowerCase()]["type"]}/>
-                        {:else}
-                            <NestedOptionEditor name={option} options={base["trait_options"][trait.toLowerCase()][option]}/>
-                        {/if}
-                    {/each}
-                </details>
-            {/each}
+        {#each trait_options as trait (trait)}
+            <details open>
+                <summary>{trait.charAt(0).toUpperCase() + trait.substring(1)}</summary>
+                {#each Object.keys(base["trait_options"][trait.toLowerCase()]) as option (option)}
+                    {#if base["trait_options"][trait.toLowerCase()][option]["value"] != undefined}
+                        <OptionEditor name={option} bind:value={base["trait_options"][trait.toLowerCase()][option]["value"]} type={base["trait_options"][trait.toLowerCase()]["type"]}/>
+                    {:else}
+                        <NestedOptionEditor name={option} bind:options={base["trait_options"][trait.toLowerCase()][option]}/>
+                    {/if}
+                {/each}
+            </details>
         {:else}
             <h>Select a component.</h>
-        {/if}
+        {/each}
     </div>
 </div>
 

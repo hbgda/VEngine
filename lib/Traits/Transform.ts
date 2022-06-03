@@ -71,6 +71,15 @@ const Draggable = {
                 component.style.top = ""
                 component.style.bottom = viewport.offsetHeight - boundedY - component.offsetHeight + "px"
             }
+
+            component["trait_options"]["transform"]["position"]["x"]["value"] = boundedX
+            component["trait_options"]["transform"]["position"]["y"]["value"] = boundedY
+
+            document.dispatchEvent(new CustomEvent("component_trait_changed", {
+                detail: {
+                    component
+                }
+            }))
         }
 
         function mouseUp() {

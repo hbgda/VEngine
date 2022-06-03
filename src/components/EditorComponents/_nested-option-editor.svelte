@@ -6,19 +6,13 @@ import { TraitOptionType } from "../../../lib/types";
     export let options: object
     let keys = undefined
     
-    let parsedOptions = []
-
-    onMount(() => {
-        keys = Object.keys(options)
-        console.log(keys)
-        parsedOptions = keys.map(k => {
-            console.log(options[k])
+    $: parsedOptions = Object.keys(options).map(k => {
+        //console.log(options[k])
             return {
                 key: k,
                 type: options[k].type == TraitOptionType.Boolean ? "checkbox" : options[k].type == TraitOptionType.Float || options[k].type == TraitOptionType.Integer ? "number" : options[k].type == TraitOptionType.String ? "text" : "",
                 value: options[k].value
             }
-        })
     })
 </script>
 
@@ -33,5 +27,15 @@ import { TraitOptionType } from "../../../lib/types";
 </div>
 
 <style>
-    
+    div > div > input  {
+        margin: 10px;
+        margin-right: 20px;
+        display: inline-block;
+    }
+    div > div > label {
+        display: initial;
+        width: fit-content;
+        margin: 0;
+        padding: 0;
+    }
 </style>

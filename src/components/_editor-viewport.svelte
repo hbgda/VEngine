@@ -12,6 +12,7 @@
     let dispatch = createEventDispatcher()
 
     function selectComponent(component) {
+
         if(selectedComponent != undefined) {
             selectedComponent.base().dispatchEvent(new CustomEvent("component_deselected"))
         }
