@@ -21,5 +21,8 @@
 </div>
 
 <style>
-    
+    input {
+        margin-left: 26px;
+        margin-top: 10px;
+    }
 </style>

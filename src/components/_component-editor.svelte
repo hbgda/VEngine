@@ -27,6 +27,16 @@
 
     let trait_options = []
 
+    function OptionValueChanged(e, trait, option) {
+        base["trait_options"][trait.toLowerCase()][option]["value"] = e.detail.value
+        base.dispatchEvent(new CustomEvent("component_trait_changed", {
+            detail: {
+                key: option,
+                value: e.detail.value
+            }
+        }))
+    }
+
 </script>
 
 <div id="component_editor">
@@ -37,7 +47,7 @@
                 {#each Object.keys(base["trait_options"][trait.toLowerCase()]) as option (option)}
                     {#if base["trait_options"][trait.toLowerCase()][option]["value"] != undefined}
                         <OptionEditor on:value_changed={(e) => {
-                            base["trait_options"][trait.toLowerCase()][option]["value"] = e.detail.value
+                            OptionValueChanged(e, trait, option)
                         }} name={option} editable={base["trait_options"][trait.toLowerCase()][option]["editable"] == true} bind:value={base["trait_options"][trait.toLowerCase()][option]["value"]} type={base["trait_options"][trait.toLowerCase()]["type"]}/>
                     {:else}
                         <NestedOptionEditor name={option} bind:options={base["trait_options"][trait.toLowerCase()][option]}/>

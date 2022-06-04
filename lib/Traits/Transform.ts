@@ -105,12 +105,6 @@ const Draggable = {
 
 
         return {
-            options: {
-                snap_px: {
-                    type: TraitOptionType.Integer,
-                    value: 10
-                }
-            },
             events: [
                 {
                     listener: "mousedown",
@@ -125,6 +119,7 @@ const transformDisplay = document.createElement("div")
 transformDisplay.style.position = "relative"
 transformDisplay.style.width = "100%"
 transformDisplay.style.height = "100%"
+transformDisplay.style.zIndex = "2"
 transformDisplay.innerHTML = `
 <div class="transform-node top-left"></div>
 <div class="transform-node top-mid"></div>

@@ -18,10 +18,10 @@
         if(implement) {
             let info = implement(_base)
             
-            for(const event of info.events) {
-                _base.addEventListener(event.listener, () => {
+            for(const event of info.events || []) {
+                _base.addEventListener(event.listener, (e) => {
                     if(selected == false && event.ignoreSelection !== true) return
-                    event.event()
+                    event.event(e)
                 })
             }
             
@@ -40,6 +40,7 @@
         _base["trait_options"] = {}
         _base["traits"] = []
         implementTrait(Trait.Transform)
+        //implementTrait(Trait.Image)
     })
 
 

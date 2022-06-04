@@ -31,48 +31,45 @@
         background-color: white;
         position: absolute;
         -webkit-user-drag: none;
+        border: black 1px solid;
     }
-    :global(.top-left), :global(.top-mid), :global(.top-right) {
-        transform: translateY(-5px);
-    }
-
     :global(.top-left) {
         left: 0;
-        transform: translate(-5px, -5px);
+        transform: translate(-7px, -7px);
     }
     :global(.top-mid) {
         left: 50%;
-        transform: translate(-50%, -5px);
+        transform: translate(-7px, -7px);
     }
     :global(.top-right) {
         right: 0;
-        transform: translate(5px, -5px);
+        transform: translate(7px, -7px);
     }
 
     :global(.bottom-left) {
         left: 0;
         bottom: 0;
-        transform: translate(-5px, 5px);
+        transform: translate(-7px, 7px);
     }
     :global(.bottom-mid) {
         left: 50%;
         bottom: 0;
-        transform: translate(-50%, 5px);
+        transform: translate(-7px, 7px);
     }
     :global(.bottom-right) {
         right: 0;
         bottom: 0;
-        transform: translate(5px, 5px);
+        transform: translate(7px, 7px);
     }
 
     :global(.left-mid) {
         left: 0;
         top: 50%;
-        transform: translate(-5px, -50%);
+        transform: translate(-7px, -7px);
     }
     :global(.right-mid) {
         right: 0;
         top: 50%;
-        transform: translate(5px, -50%);
+        transform: translate(7px, -7px);
     }
 </style>
