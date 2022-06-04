@@ -72,7 +72,10 @@
         color: white;
         padding-left: 10px;
     }
-    #component_editor > :global(details) {
+    #component_editor > div > :global(details) {
         text-align: left;
+        padding: 10px;
+        border-bottom: white 2px solid;;
+        border-radius: 0 0 20px 20px;
     }
 </style>

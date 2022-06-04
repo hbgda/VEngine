@@ -40,7 +40,7 @@
         _base["trait_options"] = {}
         _base["traits"] = []
         implementTrait(Trait.Transform)
-        //implementTrait(Trait.Image)
+        implementTrait(Trait.Image)
     })
 
 
