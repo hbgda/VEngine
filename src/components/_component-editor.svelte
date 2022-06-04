@@ -1,7 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
-    import { Trait } from "../../lib/Trait";
     import NestedOptionEditor from "./EditorComponents/_nested-option-editor.svelte";
     import OptionEditor from "./EditorComponents/_option-editor.svelte";
     import type SceneComponent from "./_scene-component.svelte";
@@ -43,7 +42,13 @@
     <div>
         {#each trait_options as trait (trait)}
             <details open>
-                <summary>{trait.charAt(0).toUpperCase() + trait.substring(1)}</summary>
+                <summary>
+                    {trait.charAt(0).toUpperCase() + trait.substring(1)}
+                    {#if !(base?.["required_traits"] || []).includes(trait)}
+                        <button>Remove</button>
+                        <button>Disable</button>
+                    {/if}
+                </summary>
                 {#each Object.keys(base["trait_options"][trait.toLowerCase()]) as option (option)}
                     {#if base["trait_options"][trait.toLowerCase()][option]["value"] != undefined}
                         <OptionEditor on:value_changed={(e) => {
@@ -57,6 +62,9 @@
         {:else}
             <h>Select a component.</h>
         {/each}
+        {#if selectedComponent != undefined}
+            <button id="add_trait">Add Trait</button>
+        {/if}
     </div>
 </div>
 
@@ -66,16 +74,33 @@
         top: 0;
         right: 0;
         height: 100%;
-        width: 30%;
-        text-align: left;
-        background-color: rgb(46, 46, 46);
+        width: calc(30% - 20px);
+        text-align: center;
+        background-color: rgb(36, 36, 36);
         color: white;
         padding-left: 10px;
     }
-    #component_editor > div > :global(details) {
+    #component_editor > div > details {
         text-align: left;
         padding: 10px;
         border-bottom: white 2px solid;;
-        border-radius: 0 0 20px 20px;
+        border-radius: 0 0 5px 5px;
+    }
+    #component_editor > div > details > summary > button {
+        float: right;
+        height: 20px;
+        padding: 5px;
+        line-height: 10px;
+    }
+    #component_editor > div > h {
+        font-size: large;
+        margin: auto;
+    }
+    #add_trait {
+        margin: 10px;
+        height: 20px;
+        width: 70%;
+        padding: 5px;
+        line-height: 10px;
     }
 </style>

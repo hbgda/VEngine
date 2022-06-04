@@ -11,6 +11,7 @@ export const Transform = {
         let scaleInfo = Scalable.implement(component)
 
         return {
+            required: true,
             options: {
                 size: {
                     x: {
@@ -50,10 +51,10 @@ const Draggable = {
         function mouseMove(e: MouseEvent) {
             let viewport = document.getElementById("editor_viewport")
             let snap_px = component.trait_options.transform.snap.value || 20
-            let rawX = e.pageX - component.offsetWidth / 2
             // jank fix but i really cba to figure out a proper one rn
             // legit prob just ignore it because i dont want to acknowledge it
-            let rawY = e.pageY - ((component.offsetHeight / 2) + 44)
+            let rawX = e.pageX - ((component.offsetWidth / 2))
+            let rawY = e.pageY - ((component.offsetHeight / 2))
             let snappedX = Math.floor(rawX / snap_px) * snap_px
             let snappedY = Math.floor(rawY / snap_px) * snap_px
             let boundedX = Bound(snappedX, 0, viewport.offsetWidth - component.offsetWidth)

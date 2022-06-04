@@ -27,6 +27,9 @@
             
             _base["trait_options"][trait.toLowerCase()] = info.options
             _base["traits"] = [trait, ..._base["traits"]]
+            if(info?.["required"] == true) {
+                _base["required_traits"] = [trait.toLowerCase(), ..._base["required_traits"] || []]
+            }
             console.log("Implemented " + trait)
             return true
         }
@@ -40,7 +43,6 @@
         _base["trait_options"] = {}
         _base["traits"] = []
         implementTrait(Trait.Transform)
-        implementTrait(Trait.Image)
     })
 
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import ProjectAssetView from "./components/ProjectAssetView/_project-asset-view.svelte";
     import ComponentEditor from "./components/_component-editor.svelte";    
     import EditorViewport from "./components/_editor-viewport.svelte";
     import type SceneComponent from "./components/_scene-component.svelte";
@@ -8,6 +9,7 @@
 <main>
     <EditorViewport/>
     <ComponentEditor/>
+    <ProjectAssetView/>
 </main>
 
 <style>

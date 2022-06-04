@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { createEventDispatcher } from "svelte";
+    import { createEventDispatcher, onMount } from "svelte";
 
     import { Trait } from "../../lib/Trait";
 
@@ -10,6 +10,16 @@
     let selectedComponent: SceneComponent
 
     let dispatch = createEventDispatcher()
+
+    onMount(() => {
+        document.addEventListener("keydown", (e) => {
+            if(e.key == "Delete" && selectedComponent != undefined) {
+                let idx = componentObjects.indexOf(selectedComponent)
+                selectComponent(-1)
+                sceneComponents.splice(idx, 1)
+            }
+        })
+    })
 
     function selectComponent(component) {
 
@@ -44,7 +54,7 @@
         
     }
 </script>
-<div>
+<div id="scene">
     <div id="editor_control">
         <button on:click={() => {
             sceneComponents = [(sceneComponents[0] || 0) + 1, ...sceneComponents] 
@@ -56,7 +66,7 @@
     </div>
     <div id="editor_viewport" on:click={() => selectComponent(-1)}>
         <div id="component_scene">
-            {#each sceneComponents as component, i}
+            {#each sceneComponents as component, i (component)}
                 <SceneComponent selected={selectedComponent == componentObjects[i] ? true : false} bind:this={componentObjects[i]} on:selected={() => selectComponent(i)}/>
             {/each}
         </div>    
@@ -64,15 +74,18 @@
 </div>
 
 <style>
+    #scene {
+        position: relative;
+    }
     #editor_viewport {
-        width: 1334px;
+        width: 70%;
         background-color: blue;
         position: relative;
-        top: 44px;
         left: 0;
         bottom: 0;
         z-index: 1;
         aspect-ratio: 16 / 9;
+        border: rgb(36, 36, 36) 10px solid;
     }
     #component_scene {
         width: 100%;
@@ -82,12 +95,17 @@
     #editor_control {
         position: absolute;
         text-align: left;
-        z-index: 1;
-        left: 0%;
-        background-color: rgb(46, 46, 46);
-        width: 1334px;
+        z-index: 2;
+        left: 15px;
+        top: 15px;
+        background-color: transparent;
+        width: fit-content;
     }
     #editor_control > button {
         z-index: 99;
+        height: 30px;
+        font-size: large;
+        border-radius: 5px;
+        line-height: 15px;
     }
 </style>
